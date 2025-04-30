@@ -1,0 +1,17 @@
+# Playwright Specific
+node_modules/
+test-results/
+reports/
+playwright-report
+playwright/.auth/user.json
+
+# Project
+package.json
+package-lock.json
+
+# IDE - VSCode
+.vscode/*
+./idea
+
+.env
+.env.*
