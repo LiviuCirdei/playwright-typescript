@@ -42,10 +42,6 @@ npm ci
   npm run test:safari
   ```
 
-  ```
-
-  ```
-
 - Interactive UI:
   ```sh
   npm run test:ui
@@ -115,8 +111,4 @@ npm run playwright:version
 ├── playwright.config.ts  # Playwright settings (browsers, timeouts, reporters)
 ├── README.md             # Project overview and usage instructions
 ├── tsconfig.json         # TypeScript compiler options
-```
-
-```
-
 ```
