@@ -8,7 +8,4 @@ node_modules/
 /playwright/.cache/
 .idea/
 playwright/.auth
-.env
-.env.*
-.vscode/settings.json
 
