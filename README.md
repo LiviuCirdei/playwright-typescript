@@ -1,114 +1,179 @@
-# Playwright testing project with TypeScript
+# Playwright TypeScript Test Automation
 
-This repository contains a sample Playwright testing project using TypeScript. It includes automated end2end browser tests, linting, code formatting, and pre-commit hooks.
+[![Playwright tests](https://github.com/LiviuCirdei/playwright-typescript/actions/workflows/playwright.yml/badge.svg)](https://github.com/LiviuCirdei/playwright-typescript/actions/workflows/playwright.yml)
+[![Playwright](https://img.shields.io/badge/tested%20with-Playwright-2EAD33?logo=playwright)](https://playwright.dev/)
+[![TypeScript](https://img.shields.io/badge/language-TypeScript-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+
+An end-to-end browser-testing project for [Sauce Demo](https://www.saucedemo.com/), built with Playwright and TypeScript. It demonstrates a maintainable test architecture using page objects, custom fixtures, generated test data, and automated quality checks.
+
+## Test scenario
+
+The included test automates a complete checkout journey:
+
+1. Log in to Sauce Demo.
+2. Add the first product to the cart.
+3. Validate its name, price, and quantity.
+4. Enter generated checkout information.
+5. Validate the order summary.
+6. Complete the order and verify its confirmation.
 
 ## Features
 
-- Automated end2end browser tests with Playwright
-- Linting with ESLint
-- Code formatting with Prettier
-- Husky pre-commit hooks for linting and formatting
-- Faker.js for generating realistic test data
-- Page Object Model (POM) for better test structure
-- Playwright Test Runner for running tests in multiple browsers
+- Cross-browser testing with Chromium, Firefox, and WebKit
+- Page Object Model for reusable page interactions
+- Custom Playwright fixtures for page-object injection
+- Faker-generated checkout data
+- Screenshots and traces retained for failed tests
+- Video recording on the first retry in CI
+- HTML test reports
+- ESLint, Prettier, and Husky pre-commit checks
+- GitHub Actions continuous integration
 
-## Getting Started
+## Technology stack
 
-### Prerequisites
+- [Playwright Test](https://playwright.dev/docs/test-intro)
+- TypeScript
+- ESLint and Prettier
+- Faker
+- Husky
 
-- Node.js v18 or newer
+## Prerequisites
 
-### Install dependencies
+- [Node.js](https://nodejs.org/) 18 or newer
+- npm (included with Node.js)
 
-```sh
+## Installation
+
+Clone the repository and install the exact dependency versions from the lockfile:
+
+```bash
+git clone https://github.com/LiviuCirdei/playwright-typescript.git
+cd playwright-typescript
 npm ci
+npx playwright install
 ```
 
-### Run tests
+On Linux or in a CI environment, install the browser system dependencies too:
 
-- All browsers headless (default):
-  ```sh
-  npm run test
-  ```
-- Headed mode:
-  ```sh
-  npm run test:headed
-  ```
-- Specific browser:
-
-  ```sh
-  npm run test:chromium
-  npm run test:firefox
-  npm run test:safari
-  ```
-
-- Interactive UI:
-  ```sh
-  npm run test:ui
-  ```
-- Debug mode:
-  ```sh
-  npm run debug
-  ```
-- Code generation:
-  ```sh
-  npm run codegen
-  ```
-
-### Update Playwright
-
-To update Playwright and install the latest browser binaries:
-
-```sh
-npm run update:playwright
+```bash
+npx playwright install --with-deps
 ```
 
-### Check Playwright version
+## Environment configuration
 
-To check the installed Playwright version:
+Create your local environment file from the provided template:
 
-```sh
+```bash
+cp .env.example .env
+```
+
+The project requires these variables:
+
+```dotenv
+BASE_URL=https://www.saucedemo.com
+USERNAME=standard_user
+PASSWORD=secret_sauce
+```
+
+`.env` is ignored by Git. Do not commit real credentials.
+
+## Running tests
+
+Run all browser projects in headless mode:
+
+```bash
+npm test
+```
+
+Other useful commands:
+
+| Command                 | Purpose                                 |
+| ----------------------- | --------------------------------------- |
+| `npm run test:headless` | Run all tests headlessly                |
+| `npm run test:headed`   | Run all tests with visible browsers     |
+| `npm run test:chromium` | Run the Chromium project                |
+| `npm run test:firefox`  | Run the Firefox project                 |
+| `npm run test:webkit`   | Run the WebKit project                  |
+| `npm run test:ui`       | Open Playwright's interactive UI mode   |
+| `npm run debug`         | Run tests with the Playwright Inspector |
+| `npm run codegen`       | Open Playwright's test generator        |
+
+Tests also carry `@smoke` and `@checkout` tags:
+
+```bash
+npx playwright test --grep @smoke
+npx playwright test --grep @checkout
+```
+
+## Reports and debugging
+
+Open the most recent HTML report:
+
+```bash
+npm run test:report
+```
+
+When a test fails, Playwright saves a screenshot and trace in `test-results/`. Open a trace with:
+
+```bash
+npx playwright show-trace path/to/trace.zip
+```
+
+In CI, the HTML report is uploaded as a GitHub Actions artifact even when the test job fails.
+
+## Code quality
+
+```bash
+npm run lint          # Check ESLint rules
+npm run lint:fix      # Automatically fix supported lint problems
+npm run prettier      # Check formatting
+npm run prettier:fix  # Format files
+```
+
+Husky runs the lint and formatting checks before each commit.
+
+## Updating Playwright
+
+Update Playwright and reinstall its browser binaries:
+
+```bash
+npm run playwright:update
+```
+
+Check the installed version:
+
+```bash
 npm run playwright:version
 ```
 
-### Lint and format code
+## Project structure
 
-- Lint:
-  ```sh
-  npm run lint
-  ```
-- Lint and fix:
-  ```sh
-  npm run lint:fix
-  ```
-- Prettier check:
-  ```sh
-  npm run prettier
-  ```
-- Prettier fix:
-  ```sh
-  npm run prettier:fix
-  ```
-
-## Project Structure
-
-```
+```text
 .
-├── .husky/               # Git hooks (e.g. pre-commit with linting)
-├── config/               # Env file and configuration files
-├── fixtures/             # Test data and fixtures (page object)
-├── pages/                # Page objects for different application pages
-├── shared/               # Shared utilities and types
-├── test-data/            # Test data generation (Faker.js)
-├── tests/                # Test files
-├── utils/                # Utility functions and helpers
-├── .gitignore            # Files ignored by Git
-├── .prettierignore       # Files ignored by Prettier
-├── .prettierrc           # Prettier formatting rules
-├── eslint.config.mjs     # ESLint configuration
-├── package-lock.json     # Lock file for exact dependency versions
-├── package.json          # Project metadata, dependencies, npm scripts
-├── playwright.config.ts  # Playwright settings (browsers, timeouts, reporters)
-├── README.md             # Project overview and usage instructions
-├── tsconfig.json         # TypeScript compiler options
+├── .github/workflows/   # Continuous-integration workflow
+├── .husky/              # Git hooks
+├── config/              # Environment configuration
+├── fixtures/            # Custom Playwright fixtures
+├── pages/               # Page objects grouped by application page
+├── shared/              # Shared constants and TypeScript types
+├── test-data/           # Faker-powered test-data builders
+├── tests/               # End-to-end test specifications
+├── utils/               # Reusable test utilities
+├── .env.example         # Safe environment-variable template
+└── playwright.config.ts # Browser, reporter, retry, and artifact settings
 ```
+
+## Continuous integration
+
+GitHub Actions runs linting, formatting, and the Playwright suite for pushes and pull requests targeting `main`. Test reports are retained as downloadable artifacts for 14 days.
+
+## Contributing
+
+1. Create a branch from `main`.
+2. Make your changes and add or update tests.
+3. Run `npm run lint`, `npm run prettier`, and `npm test`.
+4. Open a pull request describing the change.
+
+## License
+
+This project is available under the [ISC License](LICENSE).
