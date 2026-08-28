@@ -6,6 +6,9 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+.playwright-browsers/
 .idea/
 playwright/.auth
 
+# Local environment variables
+.env

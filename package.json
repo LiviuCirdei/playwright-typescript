@@ -3,16 +3,17 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "npx playwright test --headed",
+    "test": "npx playwright test",
     "test:headless": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
     "test:chromium": "npx playwright test --project 'chromium'",
     "test:firefox": "npx playwright test --project='firefox'",
-    "test:safari": "npx playwright test --project='safari'",
+    "test:webkit": "npx playwright test --project='webkit'",
     "test:report": "npx playwright show-report",
     "test:ui": "npx playwright test --ui",
     "debug": "npx playwright test --debug",
     "codegen": "npx playwright codegen",
-    "playwright:update": " npm install -D @playwright/test@latest && npx playwright install --with-deps",
+    "playwright:update": "npm install -D @playwright/test@latest && npx playwright install --with-deps",
     "playwright:version": "npx playwright --version",
     "lint": "npx eslint .",
     "lint:fix": "npx eslint . --fix",
@@ -24,14 +25,19 @@
     "type": "git",
     "url": "git+https://github.com/LiviuCirdei/playwright-typescript.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "playwright",
+    "typescript",
+    "end-to-end-testing",
+    "test-automation"
+  ],
+  "author": "Liviu Cirdei",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/LiviuCirdei/playwright-typescript/issues"
   },
   "homepage": "https://github.com/LiviuCirdei/playwright-typescript#readme",
-  "description": "",
+  "description": "End-to-end checkout automation for Sauce Demo using Playwright and TypeScript.",
   "devDependencies": {
     "@eslint/js": "^9.25.1",
     "@faker-js/faker": "^10.0.0",
